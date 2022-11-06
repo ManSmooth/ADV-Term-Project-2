@@ -9,9 +9,6 @@ import org.apache.logging.log4j.LogManager;
 
 public class GameLoader {
     private static Logger logger = LogManager.getLogger(GameLoader.class);
-    static {
-        load();
-    }
 
     public static void load() {
         try {

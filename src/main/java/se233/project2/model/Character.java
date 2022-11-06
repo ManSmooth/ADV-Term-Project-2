@@ -109,11 +109,6 @@ public class Character extends StackPane {
 
     public void checkIntersectCharacter(Character c) {
         if (this.getBoundsInParent().intersects(c.getBoundsInParent())) {
-            // if (this.x > c.getX())
-            // this.x = c.getBoundsInParent().getWidth() / 2 + c.getX();
-            // else
-            // this.x = c.getBoundsInParent().getWidth() / 2 - c.getX();
-            logger.info("intersect");
             PolarVector normal = vel.add(c.getVel().negate());
             double impulse = vel.add(c.getVel().negate()).mult(0.66 * (1 +
                     GameController.ELASTICITY))
