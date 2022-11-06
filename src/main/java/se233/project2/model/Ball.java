@@ -3,11 +3,12 @@ package se233.project2.model;
 import se233.project2.controller.ImageHandler;
 import se233.project2.controller.MediaController;
 import se233.project2.controller.SceneController;
+import se233.project2.controller.game.GameController;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import se233.project2.controller.Game.GameController;
 import se233.project2.view.GameView;
 
 public class Ball extends StackPane {
@@ -102,16 +103,21 @@ public class Ball extends StackPane {
                     .mult(c.isKicking() ? 1.5 : 1);
             toAdd = new PolarVector().fromPolar(impulse, normal.getAngle());
             c.setVel(c.getVel().add(toAdd));
+            if (!c.isKicking() && impulse > 5)
+                c.getHp().set(c.getHp().get() - Math.pow(2, impulse / 7.5));
         }
     }
 
     public void checkIntersectGoalRegion(GoalRegion gr) {
         if (intersects_goal_region(gr)) {
-            if (y < gr.getMinY()) {
+            if (y < gr.getMinY() + RADIUS) {
                 PolarVector toAdd = new PolarVector().fromPolar(
                         vel.project(-Math.PI / 2).mult(1 + GameController.ELASTICITY).getMagnitude() - 4, -Math.PI / 2);
                 vel = vel.add(toAdd);
-                y = gr.getMinY() - RADIUS;
+                y = gr.getMinY();
+                isMidAir = false;
+                if (toAdd.getMagnitude() > 5)
+                    MediaController.playSFX("bounce");
             } else {
                 gr.goal();
             }
@@ -119,7 +125,8 @@ public class Ball extends StackPane {
     }
 
     public boolean intersects_goal_region(GoalRegion goalRegion) {
-        return goalRegion.intersects(x, y, 0.1, 0.1);
+        return goalRegion.intersects(x, y,
+                0, 0);
     }
 
     public boolean intersects_character(Character c) {
@@ -175,5 +182,17 @@ public class Ball extends StackPane {
 
     public void setVel(PolarVector vel) {
         this.vel = vel;
+    }
+
+    public void setMidAir(boolean isMidAir) {
+        this.isMidAir = isMidAir;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
     }
 }

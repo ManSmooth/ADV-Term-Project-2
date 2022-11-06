@@ -6,8 +6,13 @@ import java.util.TimerTask;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -25,10 +30,11 @@ public class MediaController {
     private static HashMap<String, Media> mediaMap = new HashMap<>();
     private static MediaPlayer player;
     private static String playing = "";
-    private static double bgm_volume = 0.5;
-    private static double sfx_volume = 0.5;
+    private static DoubleProperty bgmVolume = new SimpleDoubleProperty(0.5);
+    private static DoubleProperty sfxVolume = new SimpleDoubleProperty(0.5);
     private static Logger logger = LogManager.getLogger(MediaController.class);
-    static {
+
+    public static void load() {
         mediaMap.put("darkness",
                 new Media(Launcher.class.getResource("/assets/audio/Darkness01.mp3").toExternalForm()));
         mediaMap.put("ghosthunter",
@@ -47,6 +53,11 @@ public class MediaController {
                 new Media(Launcher.class.getResource("/assets/sfx/bounce.mp3").toExternalForm()));
         mediaMap.put("goal",
                 new Media(Launcher.class.getResource("/assets/sfx/goal.mp3").toExternalForm()));
+        mediaMap.put("death",
+                new Media(Launcher.class.getResource("/assets/sfx/death.mp3").toExternalForm()));
+        bgmVolume.addListener((observable, oldValue, newValue) -> {
+            player.setVolume(newValue.doubleValue());
+        });
     }
 
     public static void play(String name) {
@@ -55,7 +66,7 @@ public class MediaController {
         if (player != null)
             player.stop();
         player = new MediaPlayer(mediaMap.get(name));
-        player.setVolume(bgm_volume);
+        player.setVolume(bgmVolume.get());
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
@@ -75,22 +86,21 @@ public class MediaController {
 
     public static void playSFX(String name) {
         MediaPlayer sfx = new MediaPlayer(mediaMap.get(name));
-        sfx.setVolume(sfx_volume);
+        sfx.setVolume(sfxVolume.get());
         logger.debug("Playing " + name);
         sfx.play();
     }
 
     public static void playSFX(String name, long millis) {
         MediaPlayer sfx = new MediaPlayer(mediaMap.get(name));
-        sfx.setVolume(sfx_volume);
+        sfx.setVolume(sfxVolume.get());
         logger.debug("Playing " + name);
-        sfx.play();
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                sfx.stop();
-            }
-        }, millis);
+        Timeline tl = new Timeline();
+        tl.getKeyFrames().add(new KeyFrame(Duration.millis(0), e -> sfx.play()));
+        tl.getKeyFrames().add(new KeyFrame(Duration.millis(millis), new KeyValue(sfx.volumeProperty(), 1)));
+        tl.getKeyFrames().add(new KeyFrame(Duration.millis(millis + 250), new KeyValue(sfx.volumeProperty(), 0)));
+        tl.getKeyFrames().add(new KeyFrame(Duration.millis(millis + 250), e -> sfx.stop()));
+        tl.play();
     }
 
     public static void nowPlaying() {
@@ -135,5 +145,13 @@ public class MediaController {
         }, 5000);
         logger.info(String.format("add %s to %s", pane.getClass(),
                 Launcher.getSceneController().getActiveScene().getClass()));
+    }
+
+    public static DoubleProperty getBgmVolume() {
+        return bgmVolume;
+    }
+
+    public static DoubleProperty getSfxVolume() {
+        return sfxVolume;
     }
 }

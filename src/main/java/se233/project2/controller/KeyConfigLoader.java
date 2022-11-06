@@ -13,23 +13,15 @@ import se233.project2.Launcher;
 public class KeyConfigLoader {
     private static Logger logger = LogManager.getLogger(KeyConfigLoader.class);
     private static HashMap<String, KeyCode> keyConfig = new HashMap<>();
-    static {
-        load();
-    }
 
-    private static void load() {
-        try {
-            String text = new String(Launcher.class.getResourceAsStream("/keyconfig.json").readAllBytes())
+    public static void load() throws IOException {
+        String text = new String(Launcher.class.getResourceAsStream("/keyconfig.json").readAllBytes())
                 .replaceAll("[\\n\\t]", "");
-            JSONObject json = new JSONObject(text);
-            for (String keySet : json.keySet()) {
-                keyConfig.put(keySet, KeyCode.valueOf(json.getString(keySet)));
-            }
-            logger.info("Successfully Registered Keys");
-        } catch (IOException e){
-            logger.fatal(e.getCause(), e);
+        JSONObject json = new JSONObject(text);
+        for (String keySet : json.keySet()) {
+            keyConfig.put(keySet, KeyCode.valueOf(json.getString(keySet)));
         }
-
+        logger.info("Successfully Registered Keys");
     }
 
     public static HashMap<String, KeyCode> getKeyConfig() {

@@ -60,9 +60,9 @@ public class SceneController {
             try {
                 onStart.invoke(getScene(name), (Object[]) null);
             } catch (IllegalAccessException e) {
-                logger.error(String.format("Error invoking onStart on \"%s\"", name));
+                logger.fatal(String.format("Error invoking onStart on \"%s\"", name));
             } catch (InvocationTargetException e) {
-                logger.error(e.getCause(), e);
+                logger.fatal(e.getCause(), e);
             }
         main.setRoot(sceneMap.get(name));
         logger.info(String.format("Changed Scene to %s", name));

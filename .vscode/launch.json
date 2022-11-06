@@ -9,7 +9,7 @@
       "name": "Launch Current File",
       "request": "launch",
       "mainClass": "${file}",
-      "vmArgs": "-Dprism.dirtyopts=false"
+      "vmArgs": ""
     },
     {
       "type": "java",
@@ -17,7 +17,7 @@
       "request": "launch",
       "mainClass": "se233.project2.App",
       "projectName": "project2",
-      "vmArgs": "-Dprism.dirtyopts=false"
+      "vmArgs": ""
     }
   ]
 }

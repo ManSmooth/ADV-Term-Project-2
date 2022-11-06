@@ -142,5 +142,1045 @@
                 ]
             }
         ]
+    },
+    {
+        "name": "Protoman",
+        "sheetURL": "/assets/sprite/ProtoMan.png",
+        "animation": [
+            {
+                "name": "idle",
+                "offset": {
+                    "x": 2,
+                    "y": 120
+                },
+                "offset_r": {
+                    "x": 2,
+                    "y": 164
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 16,
+                        "h": 38
+                    }
+                ]
+            },
+            {
+                "name": "running",
+                "offset": {
+                    "x": 29,
+                    "y": 123
+                },
+                "offset_r": {
+                    "x": 29,
+                    "y": 168
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 27,
+                        "h": 35
+                    },
+                    {
+                        "w": 20,
+                        "h": 35
+                    },
+                    {
+                        "w": 27,
+                        "h": 35
+                    },
+                    {
+                        "w": 20,
+                        "h": 35
+                    }
+                ]
+            },
+            {
+                "name": "jumping",
+                "offset": {
+                    "x": 137,
+                    "y": 122
+                },
+                "offset_r": {
+                    "x": 137,
+                    "y": 166
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 18,
+                        "h": 36
+                    }
+                ]
+            },
+            {
+                "name": "kicking",
+                "offset": {
+                    "x": 165,
+                    "y": 125
+                },
+                "offset_r": {
+                    "x": 165,
+                    "y": 168
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 25,
+                        "h": 34
+                    }
+                ]
+            },
+            {
+                "name": "winning",
+                "offset": {
+                    "x": 3,
+                    "y": 316
+                },
+                "offset_r": {
+                    "x": -1,
+                    "y": -1
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 26,
+                        "h": 38
+                    },
+                    {
+                        "w": 26,
+                        "h": 38
+                    }
+                ]
+            },
+            {
+                "name": "special",
+                "offset": {
+                    "x": -1,
+                    "y": -1
+                },
+                "offset_r": {
+                    "x": 2,
+                    "y": 360
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 26,
+                        "h": 24
+                    },
+                    {
+                        "w": 26,
+                        "h": 24
+                    },
+                    {
+                        "w": 26,
+                        "h": 24
+                    },
+                    {
+                        "w": 26,
+                        "h": 24
+                    },
+                    {
+                        "w": 24,
+                        "h": 24
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Enker",
+        "sheetURL": "/assets/sprite/Enker.png",
+        "animation": [
+            {
+                "name": "idle",
+                "offset": {
+                    "x": 2,
+                    "y": 126
+                },
+                "offset_r": {
+                    "x": 2,
+                    "y": 174
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 16,
+                        "h": 41
+                    }
+                ]
+            },
+            {
+                "name": "running",
+                "offset": {
+                    "x": 28,
+                    "y": 127
+                },
+                "offset_r": {
+                    "x": 28,
+                    "y": 174
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 27,
+                        "h": 40
+                    },
+                    {
+                        "w": 22,
+                        "h": 40
+                    },
+                    {
+                        "w": 27,
+                        "h": 40
+                    },
+                    {
+                        "w": 21,
+                        "h": 40
+                    }
+                ]
+            },
+            {
+                "name": "jumping",
+                "offset": {
+                    "x": 140,
+                    "y": 129
+                },
+                "offset_r": {
+                    "x": 140,
+                    "y": 176
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 21,
+                        "h": 38
+                    }
+                ]
+            },
+            {
+                "name": "kicking",
+                "offset": {
+                    "x": 171,
+                    "y": 129
+                },
+                "offset_r": {
+                    "x": 171,
+                    "y": 176
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 24,
+                        "h": 38
+                    }
+                ]
+            },
+            {
+                "name": "winning",
+                "offset": {
+                    "x": 2,
+                    "y": 314
+                },
+                "offset_r": {
+                    "x": -1,
+                    "y": -1
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 22,
+                        "h": 34
+                    },
+                    {
+                        "w": 22,
+                        "h": 41
+                    }
+                ]
+            },
+            {
+                "name": "special",
+                "offset": {
+                    "x": -1,
+                    "y": -1
+                },
+                "offset_r": {
+                    "x": 2,
+                    "y": 357
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 51,
+                        "h": 57
+                    },
+                    {
+                        "w": 31,
+                        "h": 57
+                    },
+                    {
+                        "w": 22,
+                        "h": 57
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Cutman",
+        "sheetURL": "/assets/sprite/CutMan.png",
+        "animation": [
+            {
+                "name": "idle",
+                "offset": {
+                    "x": 2,
+                    "y": 128
+                },
+                "offset_r": {
+                    "x": 2,
+                    "y": 176
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 14,
+                        "h": 42
+                    }
+                ]
+            },
+            {
+                "name": "running",
+                "offset": {
+                    "x": 26,
+                    "y": 131
+                },
+                "offset_r": {
+                    "x": 26,
+                    "y": 179
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 27,
+                        "h": 39
+                    },
+                    {
+                        "w": 19,
+                        "h": 39
+                    },
+                    {
+                        "w": 27,
+                        "h": 39
+                    },
+                    {
+                        "w": 19,
+                        "h": 39
+                    }
+                ]
+            },
+            {
+                "name": "jumping",
+                "offset": {
+                    "x": 132,
+                    "y": 131
+                },
+                "offset_r": {
+                    "x": 132,
+                    "y": 179
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 21,
+                        "h": 39
+                    }
+                ]
+            },
+            {
+                "name": "kicking",
+                "offset": {
+                    "x": 163,
+                    "y": 131
+                },
+                "offset_r": {
+                    "x": 163,
+                    "y": 179
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 25,
+                        "h": 39
+                    }
+                ]
+            },
+            {
+                "name": "winning",
+                "offset": {
+                    "x": 2,
+                    "y": 297
+                },
+                "offset_r": {
+                    "x": -1,
+                    "y": -1
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 25,
+                        "h": 42
+                    },
+                    {
+                        "w": 25,
+                        "h": 43
+                    }
+                ]
+            },
+            {
+                "name": "special",
+                "offset": {
+                    "x": -1,
+                    "y": -1
+                },
+                "offset_r": {
+                    "x": 2,
+                    "y": 345
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 22,
+                        "h": 28
+                    },
+                    {
+                        "w": 21,
+                        "h": 28
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Elecman",
+        "sheetURL": "/assets/sprite/ElecMan.png",
+        "animation": [
+            {
+                "name": "idle",
+                "offset": {
+                    "x": 2,
+                    "y": 116
+                },
+                "offset_r": {
+                    "x": 2,
+                    "y": 158
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 15,
+                        "h": 36
+                    }
+                ]
+            },
+            {
+                "name": "running",
+                "offset": {
+                    "x": 27,
+                    "y": 118
+                },
+                "offset_r": {
+                    "x": 27,
+                    "y": 160
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 27,
+                        "h": 34
+                    },
+                    {
+                        "w": 19,
+                        "h": 34
+                    },
+                    {
+                        "w": 27,
+                        "h": 34
+                    },
+                    {
+                        "w": 19,
+                        "h": 34
+                    }
+                ]
+            },
+            {
+                "name": "jumping",
+                "offset": {
+                    "x": 137,
+                    "y": 117
+                },
+                "offset_r": {
+                    "x": 137,
+                    "y": 159
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 18,
+                        "h": 35
+                    }
+                ]
+            },
+            {
+                "name": "kicking",
+                "offset": {
+                    "x": 163,
+                    "y": 120
+                },
+                "offset_r": {
+                    "x": 163,
+                    "y": 162
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 27,
+                        "h": 32
+                    }
+                ]
+            },
+            {
+                "name": "winning",
+                "offset": {
+                    "x": 2,
+                    "y": 297
+                },
+                "offset_r": {
+                    "x": -1,
+                    "y": -1
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 21,
+                        "h": 36
+                    },
+                    {
+                        "w": 23,
+                        "h": 33
+                    },
+                    {
+                        "w": 21,
+                        "h": 36
+                    },
+                    {
+                        "w": 26,
+                        "h": 36
+                    }
+                ]
+            },
+            {
+                "name": "special",
+                "offset": {
+                    "x": -1,
+                    "y": -1
+                },
+                "offset_r": {
+                    "x": 2,
+                    "y": 339
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 24,
+                        "h": 24
+                    },
+                    {
+                        "w": 24,
+                        "h": 24
+                    },
+                    {
+                        "w": 24,
+                        "h": 24
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Woodman",
+        "sheetURL": "/assets/sprite/WoodMan.png",
+        "animation": [
+            {
+                "name": "idle",
+                "offset": {
+                    "x": 2,
+                    "y": 116
+                },
+                "offset_r": {
+                    "x": 2,
+                    "y": 158
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 19,
+                        "h": 36
+                    }
+                ]
+            },
+            {
+                "name": "running",
+                "offset": {
+                    "x": 31,
+                    "y": 116
+                },
+                "offset_r": {
+                    "x": 31,
+                    "y": 158
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 28,
+                        "h": 36
+                    },
+                    {
+                        "w": 22,
+                        "h": 36
+                    },
+                    {
+                        "w": 28,
+                        "h": 36
+                    },
+                    {
+                        "w": 22,
+                        "h": 36
+                    }
+                ]
+            },
+            {
+                "name": "jumping",
+                "offset": {
+                    "x": 148,
+                    "y": 116
+                },
+                "offset_r": {
+                    "x": 148,
+                    "y": 158
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 20,
+                        "h": 36
+                    }
+                ]
+            },
+            {
+                "name": "kicking",
+                "offset": {
+                    "x": 178,
+                    "y": 118
+                },
+                "offset_r": {
+                    "x": 178,
+                    "y": 160
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 31,
+                        "h": 34
+                    }
+                ]
+            },
+            {
+                "name": "winning",
+                "offset": {
+                    "x": 2,
+                    "y": 262
+                },
+                "offset_r": {
+                    "x": -1,
+                    "y": -1
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 31,
+                        "h": 36
+                    },
+                    {
+                        "w": 31,
+                        "h": 36
+                    }
+                ]
+            },
+            {
+                "name": "special",
+                "offset": {
+                    "x": -1,
+                    "y": -1
+                },
+                "offset_r": {
+                    "x": 2,
+                    "y": 305
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 29,
+                        "h": 28
+                    },
+                    {
+                        "w": 29,
+                        "h": 28
+                    },
+                    {
+                        "w": 29,
+                        "h": 28
+                    },
+                    {
+                        "w": 32,
+                        "h": 29
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Fireman",
+        "sheetURL": "/assets/sprite/FireMan.png",
+        "animation": [
+            {
+                "name": "idle",
+                "offset": {
+                    "x": 2,
+                    "y": 130
+                },
+                "offset_r": {
+                    "x": 2,
+                    "y": 179
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 14,
+                        "h": 43
+                    }
+                ]
+            },
+            {
+                "name": "running",
+                "offset": {
+                    "x": 26,
+                    "y": 133
+                },
+                "offset_r": {
+                    "x": 26,
+                    "y": 182
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 26,
+                        "h": 40
+                    },
+                    {
+                        "w": 18,
+                        "h": 40
+                    },
+                    {
+                        "w": 26,
+                        "h": 40
+                    },
+                    {
+                        "w": 18,
+                        "h": 40
+                    }
+                ]
+            },
+            {
+                "name": "jumping",
+                "offset": {
+                    "x": 132,
+                    "y": 141
+                },
+                "offset_r": {
+                    "x": 132,
+                    "y": 190
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 21,
+                        "h": 32
+                    }
+                ]
+            },
+            {
+                "name": "kicking",
+                "offset": {
+                    "x": 163,
+                    "y": 133
+                },
+                "offset_r": {
+                    "x": 163,
+                    "y": 182
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 27,
+                        "h": 40
+                    }
+                ]
+            },
+            {
+                "name": "winning",
+                "offset": {
+                    "x": 2,
+                    "y": 342
+                },
+                "offset_r": {
+                    "x": -1,
+                    "y": -1
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 28,
+                        "h": 44
+                    },
+                    {
+                        "w": 28,
+                        "h": 44
+                    },
+                    {
+                        "w": 28,
+                        "h": 44
+                    },
+                    {
+                        "w": 28,
+                        "h": 44
+                    }
+                ]
+            },
+            {
+                "name": "special",
+                "offset": {
+                    "x": -1,
+                    "y": -1
+                },
+                "offset_r": {
+                    "x": 2,
+                    "y": 392
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 25,
+                        "h": 32
+                    },
+                    {
+                        "w": 25,
+                        "h": 32
+                    },
+                    {
+                        "w": 25,
+                        "h": 32
+                    },
+                    {
+                        "w": 25,
+                        "h": 32
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Dustman",
+        "sheetURL": "/assets/sprite/DustMan.png",
+        "animation": [
+            {
+                "name": "idle",
+                "offset": {
+                    "x": 2,
+                    "y": 116
+                },
+                "offset_r": {
+                    "x": 2,
+                    "y": 158
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 19,
+                        "h": 36
+                    }
+                ]
+            },
+            {
+                "name": "running",
+                "offset": {
+                    "x": 31,
+                    "y": 120
+                },
+                "offset_r": {
+                    "x": 31,
+                    "y": 162
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 25,
+                        "h": 35
+                    },
+                    {
+                        "w": 20,
+                        "h": 35
+                    },
+                    {
+                        "w": 28,
+                        "h": 35
+                    },
+                    {
+                        "w": 20,
+                        "h": 35
+                    }
+                ]
+            },
+            {
+                "name": "jumping",
+                "offset": {
+                    "x": 140,
+                    "y": 119
+                },
+                "offset_r": {
+                    "x": 140,
+                    "y": 161
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 20,
+                        "h": 33
+                    }
+                ]
+            },
+            {
+                "name": "kicking",
+                "offset": {
+                    "x": 170,
+                    "y": 120
+                },
+                "offset_r": {
+                    "x": 170,
+                    "y": 162
+                },
+                "rolltype": 0,
+                "gap": 0,
+                "frames": [
+                    {
+                        "w": 30,
+                        "h": 32
+                    }
+                ]
+            },
+            {
+                "name": "winning",
+                "offset": {
+                    "x": 2,
+                    "y": 332
+                },
+                "offset_r": {
+                    "x": -1,
+                    "y": -1
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 30,
+                        "h": 31
+                    },
+                    {
+                        "w": 28,
+                        "h": 31
+                    }
+                ]
+            },
+            {
+                "name": "special",
+                "offset": {
+                    "x": -1,
+                    "y": -1
+                },
+                "offset_r": {
+                    "x": 2,
+                    "y": 290
+                },
+                "rolltype": 1,
+                "gap": 2,
+                "frames": [
+                    {
+                        "w": 32,
+                        "h": 36
+                    },
+                    {
+                        "w": 27,
+                        "h": 36
+                    },
+                    {
+                        "w": 32,
+                        "h": 36
+                    },
+                    {
+                        "w": 27,
+                        "h": 36
+                    }
+                ]
+            }
+        ]
     }
 ]

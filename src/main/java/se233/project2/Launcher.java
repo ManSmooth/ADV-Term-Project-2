@@ -3,7 +3,9 @@ package se233.project2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
+import se233.project2.controller.GameLoader;
 import se233.project2.controller.SceneController;
 
 public class Launcher extends Application {
@@ -17,7 +19,16 @@ public class Launcher extends Application {
 
     @Override
     public void start(Stage _primaryStage) {
+        GameLoader.load();
         primaryStage = _primaryStage;
+        primaryStage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
+        primaryStage.setOnHidden(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
         sc = new SceneController();
         sc.activate("Menu");
         try {
@@ -36,6 +47,12 @@ public class Launcher extends Application {
     }
 
     public static SceneController getSceneController() {
+        if (sc == null)
+            sc = new SceneController();
         return sc;
+    }
+
+    public static void setSc(SceneController sc) {
+        Launcher.sc = sc;
     }
 }

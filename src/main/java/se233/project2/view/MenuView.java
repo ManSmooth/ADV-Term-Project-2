@@ -24,14 +24,19 @@ public class MenuView extends BorderPane {
         Button startButton = new Button("Start");
         startButton.setPrefWidth(240);
         startButton.setOnAction((x) -> {
-            Launcher.getSceneController().activate("Game");
+            Launcher.getSceneController().activate("CharaSelect");
+        });
+        Button optionButton = new Button("Options");
+        optionButton.setPrefWidth(240);
+        optionButton.setOnAction((x) -> {
+            createOptionsPane();
         });
         Button exitButton = new Button("Exit");
         exitButton.setPrefWidth(240);
         exitButton.setOnAction((x) -> {
             Platform.exit();
         });
-        container.getChildren().addAll(title, startButton, exitButton);
+        container.getChildren().addAll(title, startButton, optionButton, exitButton);
         container.setSpacing(12);
         container.setAlignment(Pos.CENTER_LEFT);
         container.setPadding(new Insets(20, 20, 20, 20));
@@ -41,5 +46,15 @@ public class MenuView extends BorderPane {
     public static void onStart() {
         MediaController.playSFX("gameStart");
         MediaController.play("darkness");
+    }
+
+    public void createOptionsPane() {
+        OptionsPane options = new OptionsPane(this);
+        this.setCenter(options);
+        options.requestFocus();
+    }
+
+    public void removeOptionsPane(OptionsPane o) {
+        this.getChildren().remove(o);
     }
 }

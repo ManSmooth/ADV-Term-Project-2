@@ -40,17 +40,15 @@ public class PolarVectorTest {
     @Test
     public void xProjectionShouldReturnXVector() {
         PolarVector vector1 = new PolarVector().fromCartesian(1, 1);
-        vector1.project(0);
-        assertEquals(1d, vector1.getMagnitude(), 0.00000000001d, "Magnitude should be 1");
-        assertEquals(0d, vector1.getAngle(), 0.00000000001d, "Angle should be 0");
+        assertEquals(1d, vector1.project(0).getMagnitude(), 0.00000000001d, "Magnitude should be 1");
+        assertEquals(0d, vector1.project(0).getAngle(), 0.00000000001d, "Angle should be 0");
     }
 
     @Test
     public void yProjectionShouldReturnYVector() {
         PolarVector vector1 = new PolarVector().fromCartesian(1, 1);
-        vector1.project(Math.PI / 2);
-        assertEquals(1d, vector1.getMagnitude(), 0.00000000001d, "Magnitude should be 1");
-        assertEquals(Math.PI / 2d, vector1.getAngle(), 0.00000000001d, "Angle should be 0");
+        assertEquals(1d, vector1.project(Math.PI / 2).getMagnitude(), 0.00000000001d, "Magnitude should be 1");
+        assertEquals(Math.PI / 2d, vector1.project(Math.PI / 2).getAngle(), 0.00000000001d, "Angle should be 0");
     }
 
     @Test

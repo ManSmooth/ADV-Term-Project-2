@@ -7,16 +7,19 @@ import java.util.TimerTask;
 
 import org.apache.logging.log4j.LogManager;
 import javafx.scene.layout.StackPane;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.input.KeyCode;
 import se233.project2.controller.MediaController;
 import se233.project2.controller.SceneController;
 import se233.project2.controller.SpriteLoader;
-import se233.project2.controller.Game.GameController;
+import se233.project2.controller.game.GameController;
 import se233.project2.view.GameView;
 
 public class Character extends StackPane {
     private static Logger logger = LogManager.getLogger(Character.class);
     public static final int CHARACTER_HEIGHT = 96;
+    private DoubleProperty hp;
     private AnimatedSprite imageView;
     private double x;
     private double y;
@@ -30,7 +33,7 @@ public class Character extends StackPane {
     private boolean canJump = false;
     private boolean directionR = true;
     private boolean isMoving;
-    private boolean Jumping = false;
+    private boolean jumping = false;
     private boolean kicking = true;
     private boolean won = false;
     private boolean specialQueued = false;
@@ -39,6 +42,7 @@ public class Character extends StackPane {
     public Character(double x, double y, KeyCode leftKey, KeyCode rightKey, KeyCode upKey, KeyCode kickKey,
             KeyCode specialKey, String characterKey) {
         SpriteData spriteData = SpriteLoader.getSpriteData(characterKey);
+        this.hp = new SimpleDoubleProperty(100);
         this.imageView = new AnimatedSprite(spriteData);
         this.imageView.setFitHeight(CHARACTER_HEIGHT);
         this.imageView.setPreserveRatio(true);
@@ -65,9 +69,9 @@ public class Character extends StackPane {
                 vel = vel.add(-GameController.ACCELERATION, 0);
             }
         }
-        if (Jumping) {
+        if (jumping) {
             canJump = false;
-            Jumping = false;
+            jumping = false;
             isMidAir = true;
             vel = vel.add(0, GameController.JUMP_VELOCITY);
             MediaController.playSFX("jump");
@@ -129,10 +133,18 @@ public class Character extends StackPane {
                             -Math.PI / 2))
                     : toAdd)
                     .mult(isKicking() ? 1.75 : 1));
+            if (kicking && c.isKicking())
+                return;
+            else if (c.isKicking())
+                hp.set(c.getHp().get() - Math.pow(2, impulse * 1.75 / 7.5));
+            else if (isKicking())
+                c.getHp().set(c.getHp().get() - Math.pow(2, impulse * 1.75 / 7.5));
+
         }
     }
 
     public void kick() {
+        logger.debug("kick");
         if (!kicking) {
             kicking = true;
             MediaController.playSFX("kick");
@@ -178,11 +190,12 @@ public class Character extends StackPane {
         this.setTranslateX(x);
         this.setTranslateY(y);
         this.kicking = false;
+        this.hp.set(100);
     }
 
     public void jump() {
         if (canJump) {
-            Jumping = true;
+            jumping = true;
         }
     }
 
@@ -261,5 +274,9 @@ public class Character extends StackPane {
 
     public void setDoingSpecial(boolean doingSpecial) {
         this.doingSpecial = doingSpecial;
+    }
+
+    public DoubleProperty getHp() {
+        return hp;
     }
 }

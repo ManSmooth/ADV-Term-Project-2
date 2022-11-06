@@ -1,5 +1,6 @@
-package se233.project2.controller.Game;
+package se233.project2.controller.game;
 
+import se233.project2.view.CharaSelectView;
 import se233.project2.view.GameView;
 import se233.project2.view.Splash;
 import se233.project2.view.Splash.SplashType;
@@ -10,10 +11,11 @@ import se233.project2.Launcher;
 import se233.project2.controller.KeyConfigLoader;
 import se233.project2.controller.MediaController;
 import se233.project2.controller.SceneController;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -28,32 +30,30 @@ public class GameController {
     public static final double FRICTION = 0.85;
     public static final double AIR_RESISTANCE = 0.95;
     public static final double ACCELERATION = 0.75;
-    public static final double JUMP_VELOCITY = GRAVITY * -25;
+    public static final double JUMP_VELOCITY = GRAVITY * -30;
     public static final double ELASTICITY = 0.9;
     public static final double PHYSICS_FACTOR = 1;
-    private static String p1Char = "Megaman";
-    private static String p2Char = "Megaman";
+    private static String p1Char = "Enker";
+    private static String p2Char = "Protoman";
     private static SimpleIntegerProperty p1Score = new SimpleIntegerProperty(0);
     private static SimpleIntegerProperty p2Score = new SimpleIntegerProperty(0);
-    private static SimpleDoubleProperty p1Super = new SimpleDoubleProperty(0);
-    private static SimpleDoubleProperty p2Super = new SimpleDoubleProperty(0);
+    private static SimpleDoubleProperty p1Special = new SimpleDoubleProperty(0);
+    private static SimpleDoubleProperty p2Special = new SimpleDoubleProperty(0);
     private static SimpleIntegerProperty roundTime = new SimpleIntegerProperty(0);
-    private static HashMap<String, KeyCode> keyConfig;
+    private static HashMap<String, KeyCode> keyConfig = KeyConfigLoader.getKeyConfig();;
     private static Logger logger = LogManager.getLogger(GameController.class);
     private static boolean goalable = true;
     private static GameView gameView;
-
-    static {
-        keyConfig = KeyConfigLoader.getKeyConfig();
-    }
+    private static boolean testing;
+    private static ArrayList<Timeline> tempTl = new ArrayList<Timeline>();
 
     public static void startGame(GameView _gameView) {
         goalable = true;
         gameView = _gameView;
         p1Score.set(0);
         p2Score.set(0);
-        p1Super.set(0);
-        p2Super.set(0);
+        p1Special.set(0);
+        p2Special.set(0);
         roundTime.set(0);
         setupGame(gameView);
     }
@@ -76,32 +76,40 @@ public class GameController {
     }
 
     public static void resetGame(GameView gameView) {
+        tempTl.forEach(tl -> tl.stop());
+        tempTl.clear();
         Platform.runLater(() -> {
             gameView.getCharacters().get(0).reset(100d, 50d);
+            gameView.getCharacters().get(0).setVisible(true);
             gameView.getCharacters().get(1).reset(SceneController.getWidth() - 100d, 50d);
+            gameView.getCharacters().get(1).setVisible(true);
             gameView.getBall().reset(SceneController.getWidth() / 2, 50);
         });
         goalable = true;
     }
 
     public static void incrementP1() {
+        logger.info("P1 Goal");
         p1Score.set(p1Score.get() + 1);
-        playGoal();
+        if (!testing)
+            playGoal();
         logger.debug(p1Score);
     }
 
     public static void incrementP2() {
+        logger.info("P2 Goal");
         p2Score.set(p2Score.get() + 1);
-        playGoal();
+        if (!testing)
+            playGoal();
         logger.debug(p2Score);
     }
 
     public static void incrementSP1(double d) {
-        p1Super.set(p1Super.get() + d);
+        p1Special.set(p1Special.get() + d);
     }
 
     public static void incrementSP2(double d) {
-        p2Super.set(p2Super.get() + d);
+        p2Special.set(p2Special.get() + d);
     }
 
     public static void playGoal() {
@@ -125,12 +133,12 @@ public class GameController {
         return p2Score;
     }
 
-    public static SimpleDoubleProperty getP1Super() {
-        return p1Super;
+    public static SimpleDoubleProperty getP1Special() {
+        return p1Special;
     }
 
-    public static SimpleDoubleProperty getP2Super() {
-        return p2Super;
+    public static SimpleDoubleProperty getP2Special() {
+        return p2Special;
     }
 
     public static void startCountdown(int time) {
@@ -189,6 +197,8 @@ public class GameController {
         Launcher.getSceneController().activate("Menu");
         Launcher.getSceneController().removeScene("Game");
         Launcher.getSceneController().addScene("Game", new GameView());
+        Launcher.getSceneController().removeScene("CharaSelect");
+        Launcher.getSceneController().addScene("CharaSelect", new CharaSelectView());
     }
 
     public static boolean isGoalable() {
@@ -201,24 +211,27 @@ public class GameController {
 
     public static void executeSpecial(Character c) {
         int player = gameView.getCharacters().indexOf(c);
+        logger.info(String.format("Player %d: Try Special", player + 1));
         if (player == 0) {
-            if (p1Super.get() >= 100) {
+            if (p1Special.get() >= 100) {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        gameView.getP1Super().getStyleClass().add("special-queued");
+                        gameView.getP1Super().setStyle("-fx-accent: gold;");
                     }
                 });
+                logger.info(String.format("Player %d: Queuing Special", player + 1));
                 c.queueSpecial();
             }
         } else if (player == 1) {
-            if (p2Super.get() >= 100) {
+            if (p2Special.get() >= 100) {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        gameView.getP2Super().getStyleClass().add("special-queued");
+                        gameView.getP2Super().setStyle("-fx-accent: gold;");
                     }
                 });
+                logger.info(String.format("Player %d: Queuing Special", player + 1));
                 c.queueSpecial();
             }
         }
@@ -226,13 +239,14 @@ public class GameController {
 
     public static void exhaustSpecial(Character c) {
         int player = gameView.getCharacters().indexOf(c);
+        logger.info(String.format("Player %d: Exhausting Special", player + 1));
         if (player == 0) {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    Timeline tl = new Timeline(new KeyFrame(Duration.millis(250), new KeyValue(p1Super, 0)));
+                    Timeline tl = new Timeline(new KeyFrame(Duration.millis(250), new KeyValue(p1Special, 0)));
                     tl.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                            e -> gameView.getP1Super().getStyleClass().remove("special-queued")));
+                            e -> gameView.getP1Super().setStyle("-fx-accent: red;")));
                     tl.play();
                 }
             });
@@ -240,18 +254,32 @@ public class GameController {
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    Timeline tl = new Timeline(new KeyFrame(Duration.millis(250), new KeyValue(p2Super, 0)));
+                    Timeline tl = new Timeline(new KeyFrame(Duration.millis(250), new KeyValue(p2Special, 0)));
                     tl.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                            e -> gameView.getP2Super().getStyleClass().remove("special-queued")));
+                            e -> gameView.getP2Super().setStyle("-fx-accent: red;")));
                     tl.play();
                 }
             });
         }
     }
 
+    public static void processDeath(int i) {
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames()
+                .add(new KeyFrame(Duration.millis(0), e -> gameView.getCharacters().get(i).setVisible(false)));
+        timeline.getKeyFrames()
+                .add(new KeyFrame(Duration.millis(3000), e -> {
+                    gameView.getCharacters().get(i).setVisible(true);
+                    gameView.getCharacters().get(i).reset(i == 0 ? 100d : SceneController.getWidth() - 100d, 50d);
+                }));
+        MediaController.playSFX("death");
+        tempTl.add(timeline);
+        timeline.play();
+    }
+
     public static void doSpecialAnimation(Character c) {
-        gameView.getDrawingLoop().setTimeScale(0.1);
-        gameView.getGameLoop().setTimeScale(0.1);
+        gameView.getDrawingLoop().setTimeScale(0.25);
+        gameView.getGameLoop().setTimeScale(0.25);
         goalable = false;
         c.setDoingSpecial(true);
     }
@@ -263,5 +291,21 @@ public class GameController {
         Launcher.getSceneController().getKeys().clear();
         c.setIsMoving(false);
         c.setDoingSpecial(false);
+    }
+
+    public static void setP1Char(String p1Char) {
+        GameController.p1Char = p1Char;
+    }
+
+    public static void setP2Char(String p2Char) {
+        GameController.p2Char = p2Char;
+    }
+
+    public static void setGameView(GameView gameView) {
+        GameController.gameView = gameView;
+    }
+
+    public static void setTesting(boolean testing) {
+        GameController.testing = testing;
     }
 }

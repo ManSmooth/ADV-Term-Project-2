@@ -8,5 +8,9 @@
     "p2_right": "RIGHT",
     "p2_jump": "UP",
     "p2_kick": "ENTER",
-    "p2_special": "DOWN"
+    "p2_special": "DOWN",
+    "ball_up": "I",
+    "ball_down": "K",
+    "ball_left": "J",
+    "ball_right": "L"
 }

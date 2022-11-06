@@ -2,7 +2,7 @@ package se233.project2.model;
 
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
-import se233.project2.controller.Game.GameController;
+import se233.project2.controller.game.GameController;
 
 public class GoalRegion extends Rectangle2D {
     private int player;

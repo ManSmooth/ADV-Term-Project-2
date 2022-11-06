@@ -1,4 +1,4 @@
-package se233.project2.controller.Game;
+package se233.project2.controller.game;
 
 import se233.project2.view.GameView;
 import se233.project2.Launcher;
@@ -21,6 +21,8 @@ public class DrawingLoop implements Runnable {
     private DoubleBinding interval;
     private boolean running;
     private Logger logger = LogManager.getLogger(DrawingLoop.class);
+    private boolean testing;
+    private Keys keys;
 
     public DrawingLoop(GameView gameView) {
         this.gameView = gameView;
@@ -30,11 +32,11 @@ public class DrawingLoop implements Runnable {
         running = true;
     }
 
-    private void update(ArrayList<Character> characters) {
-        Keys keys = Launcher.getSceneController().getKeys();
+    public void update(ArrayList<Character> characters) {
+        keys = Launcher.getSceneController().getKeys();
         for (int i = 0; i < characters.size(); i++) {
             Character character = characters.get(i);
-            if (!GameController.isGoalable()) {
+            if (!GameController.isGoalable() && !testing) {
                 if (character.isDoingSpecial()) {
                     character.getImageView().setPlaying("special", character.getDirectionR());
                     character.getImageView().tick();
@@ -45,6 +47,9 @@ public class DrawingLoop implements Runnable {
                 if (character.hasWon()) {
                     character.getImageView().setPlaying("winning", character.getDirectionR());
                     character.getImageView().tick();
+                }
+                if (keys.isPressed(character.getSpecialKey())) {
+                    character.trySpecial();
                 }
                 continue;
             }
@@ -123,5 +128,13 @@ public class DrawingLoop implements Runnable {
 
     public void setRunning(boolean running) {
         this.running = running;
+    }
+
+    public Keys getKeys() {
+        return keys;
+    }
+
+    public void setTesting(boolean testing) {
+        this.testing = testing;
     }
 }

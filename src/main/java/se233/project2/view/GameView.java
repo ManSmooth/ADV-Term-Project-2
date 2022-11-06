@@ -12,9 +12,9 @@ import javafx.scene.layout.VBox;
 import se233.project2.controller.ImageHandler;
 import se233.project2.controller.MediaController;
 import se233.project2.controller.SceneController;
-import se233.project2.controller.Game.GameLoop;
-import se233.project2.controller.Game.DrawingLoop;
-import se233.project2.controller.Game.GameController;
+import se233.project2.controller.game.DrawingLoop;
+import se233.project2.controller.game.GameController;
+import se233.project2.controller.game.GameLoop;
 import se233.project2.model.Ball;
 import se233.project2.model.Character;
 import se233.project2.model.GoalRegion;
@@ -25,7 +25,7 @@ public class GameView extends BorderPane {
     private DrawingLoop drawingLoop;
     private Label p1ScoreLabel, p2ScoreLabel, timerLabel;
     public final static int GROUND = SceneController.getHeight() - 75;
-    private ProgressBar p1Super, p2Super;
+    private ProgressBar p1Super, p2Super, p1Hp, p2Hp;
     private ArrayList<Character> characters = new ArrayList<>();
     private ArrayList<GoalRegion> goalRegions = new ArrayList<>();
     private Ball ball;
@@ -50,15 +50,30 @@ public class GameView extends BorderPane {
         timerLabel.setAlignment(Pos.CENTER);
         timerLabel.textProperty().bind(GameController.getRoundTime().asString());
         p1Super = new ProgressBar();
-        p1Super.progressProperty().bind(GameController.getP1Super().divide(100));
+        p1Super.progressProperty().bind(GameController.getP1Special().divide(100));
         p1Super.setPrefWidth(480);
         p2Super = new ProgressBar();
         p2Super.setPrefWidth(480);
         p2Super.setScaleX(-1);
-        p2Super.progressProperty().bind(GameController.getP2Super().divide(100));
-        VBox p1Box = new VBox(8, p1Super, p1ScoreLabel);
+        p2Super.progressProperty().bind(GameController.getP2Special().divide(100));
+        p1Hp = new ProgressBar();
+        p1Hp.getStyleClass().add("health-bar");
+        p1Hp.progressProperty().bind(getCharacters().get(0).getHp().divide(100));
+        p1Hp.setPrefWidth(320);
+        p2Hp = new ProgressBar();
+        p2Hp.getStyleClass().add("health-bar");
+        p2Hp.setPrefWidth(320);
+        p2Hp.setScaleX(-1);
+        p2Hp.progressProperty().bind(getCharacters().get(1).getHp().divide(100));
+        BorderPane p1Lower = new BorderPane();
+        p1Lower.setLeft(p1Hp);
+        p1Lower.setRight(p1ScoreLabel);
+        BorderPane p2Lower = new BorderPane();
+        p2Lower.setRight(p2Hp);
+        p2Lower.setLeft(p2ScoreLabel);
+        VBox p1Box = new VBox(8, p1Super, p1Lower);
         p1Box.setAlignment(Pos.CENTER_RIGHT);
-        VBox p2Box = new VBox(8, p2Super, p2ScoreLabel);
+        VBox p2Box = new VBox(8, p2Super, p2Lower);
         p2Box.setAlignment(Pos.CENTER_LEFT);
         containerBox.setAlignment(Pos.CENTER);
         containerBox.getChildren().addAll(p1Box, timerLabel, p2Box);
@@ -87,7 +102,7 @@ public class GameView extends BorderPane {
         drawingLoop = new DrawingLoop(this);
         (new Thread(drawingLoop)).start();
         MediaController.play("ghosthunter");
-        GameController.startCountdown(20);
+        GameController.startCountdown(60);
     }
 
     public Ball getBall() {

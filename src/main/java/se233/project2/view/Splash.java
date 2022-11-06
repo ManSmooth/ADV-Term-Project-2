@@ -19,7 +19,7 @@ public class Splash extends BorderPane {
         this.setPrefSize(SceneController.getWidth(), SceneController.getHeight());
         switch (type) {
             case GOAL:
-                splashImage = new ImageView(ImageHandler.getImage("/assets/img/goal.gif"));
+                splashImage = new ImageView(ImageHandler.getImage("/assets/img/goal.png"));
                 break;
             case P1WIN:
                 splashImage = new ImageView(ImageHandler.getImage("/assets/img/p1win.png"));
