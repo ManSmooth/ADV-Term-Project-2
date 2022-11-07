@@ -35,12 +35,14 @@ public class GameLoop implements Runnable {
     public void checkDrawCollisions(ArrayList<Character> characters, Ball ball, ArrayList<GoalRegion> goalRegions) {
         for (int i = 0; i < characters.size(); i++) {
             Character c = characters.get(i);
-            if(!c.isVisible()) continue;
+            if (!c.isVisible())
+                continue;
             c.checkReachGameWall();
             c.checkReachFloor();
             ball.checkIntersectCharacter(c);
         }
-        characters.get(0).checkIntersectCharacter(characters.get(1));
+        if (characters.get(0).isVisible() && characters.get(1).isVisible())
+            characters.get(0).checkIntersectCharacter(characters.get(1));
 
         for (int i = 0; i < goalRegions.size(); i++) {
             GoalRegion g = goalRegions.get(i);
@@ -53,6 +55,8 @@ public class GameLoop implements Runnable {
     public void paint(ArrayList<Character> characters, Ball ball) {
         for (int i = 0; i < characters.size(); i++) {
             Character c = characters.get(i);
+            if (!c.isVisible())
+                continue;
             c.move();
             c.updatePos();
         }

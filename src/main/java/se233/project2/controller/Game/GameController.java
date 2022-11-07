@@ -20,6 +20,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.input.KeyCode;
@@ -42,13 +44,14 @@ public class GameController {
     private static SimpleIntegerProperty roundTime = new SimpleIntegerProperty(0);
     private static HashMap<String, KeyCode> keyConfig = KeyConfigLoader.getKeyConfig();;
     private static Logger logger = LogManager.getLogger(GameController.class);
-    private static boolean goalable = true;
+    private static BooleanProperty goalable = new SimpleBooleanProperty(true);
     private static GameView gameView;
     private static boolean testing;
     private static ArrayList<Timeline> tempTl = new ArrayList<Timeline>();
+    private static Timeline roundTimer;
 
     public static void startGame(GameView _gameView) {
-        goalable = true;
+        goalable.set(true);
         gameView = _gameView;
         p1Score.set(0);
         p2Score.set(0);
@@ -85,23 +88,21 @@ public class GameController {
             gameView.getCharacters().get(1).setVisible(true);
             gameView.getBall().reset(SceneController.getWidth() / 2, 50);
         });
-        goalable = true;
+        goalable.set(true);
     }
 
     public static void incrementP1() {
-        logger.info("P1 Goal");
         p1Score.set(p1Score.get() + 1);
+        logger.info(String.format("P1 Goal - [%d - %d]", p1Score.get(), p2Score.get()));
         if (!testing)
             playGoal();
-        logger.debug(p1Score);
     }
 
     public static void incrementP2() {
-        logger.info("P2 Goal");
         p2Score.set(p2Score.get() + 1);
+        logger.info(String.format("P2 Goal - [%d - %d]", p1Score.get(), p2Score.get()));
         if (!testing)
             playGoal();
-        logger.debug(p2Score);
     }
 
     public static void incrementSP1(double d) {
@@ -120,8 +121,10 @@ public class GameController {
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1), (e) -> {
             resetGame(gameView);
             splash.getFade().set(0);
+            gameView.getChildren().remove(splash);
         }));
         MediaController.playSFX("goal", 1000);
+        tempTl.add(timeline);
         timeline.play();
     }
 
@@ -141,14 +144,49 @@ public class GameController {
         return p2Special;
     }
 
+    public static void pauseGame() {
+        tempTl.forEach(tl -> tl.pause());
+        setGoalable(false);
+    }
+
+    public static void resumeGame() {
+        tempTl.forEach(tl -> tl.play());
+        setGoalable(true);
+    }
+
+    public static void callPause() {
+        if (gameView.isPaused()) {
+            callResume();
+            return;
+        }
+        gameView.setMenuSplash(gameView.createSplash(SplashType.PAUSE));
+        gameView.getMenuSplash().getFade().set(1);
+        GameController.pauseGame();
+        gameView.setPaused(true);
+    }
+
+    public static void callResume() {
+        gameView.getChildren().remove(gameView.getMenuSplash());
+        gameView.getMenuSplash().getFade().set(0);
+        GameController.resumeGame();
+        gameView.setPaused(false);
+    }
+
     public static void startCountdown(int time) {
         roundTime.set(time);
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(time), new KeyValue(roundTime, 0)));
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(time), (e) -> {
-            goalable = false;
+        roundTimer = new Timeline(new KeyFrame(Duration.seconds(time), new KeyValue(roundTime, 0)));
+        roundTimer.getKeyFrames().add(new KeyFrame(Duration.seconds(time), (e) -> {
+            goalable.set(false);
             endRound();
         }));
-        timeline.play();
+        roundTimer.play();
+        goalable.addListener((obs, oldVal, newVal) -> {
+            if (!newVal) {
+                roundTimer.pause();
+            } else {
+                roundTimer.play();
+            }
+        });
     }
 
     public static SimpleIntegerProperty getRoundTime() {
@@ -191,7 +229,7 @@ public class GameController {
         }
     }
 
-    private static void cleanUp() {
+    public static void cleanUp() {
         gameView.getDrawingLoop().setRunning(false);
         gameView.getGameLoop().setRunning(false);
         Launcher.getSceneController().activate("Menu");
@@ -202,11 +240,15 @@ public class GameController {
     }
 
     public static boolean isGoalable() {
+        return goalable.get();
+    }
+
+    public static BooleanProperty goalableProperty() {
         return goalable;
     }
 
     public static void setGoalable(boolean goalable) {
-        GameController.goalable = goalable;
+        GameController.goalable.set(goalable);
     }
 
     public static void executeSpecial(Character c) {
@@ -217,7 +259,7 @@ public class GameController {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        gameView.getP1Super().setStyle("-fx-accent: gold;");
+                        gameView.getP1Super().setStyle("-fx-accent: skyblue;");
                     }
                 });
                 logger.info(String.format("Player %d: Queuing Special", player + 1));
@@ -228,7 +270,7 @@ public class GameController {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        gameView.getP2Super().setStyle("-fx-accent: gold;");
+                        gameView.getP2Super().setStyle("-fx-accent: skyblue;");
                     }
                 });
                 logger.info(String.format("Player %d: Queuing Special", player + 1));
@@ -246,7 +288,7 @@ public class GameController {
                 public void run() {
                     Timeline tl = new Timeline(new KeyFrame(Duration.millis(250), new KeyValue(p1Special, 0)));
                     tl.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                            e -> gameView.getP1Super().setStyle("-fx-accent: red;")));
+                            e -> gameView.getP1Super().setStyle("-fx-accent: blue;")));
                     tl.play();
                 }
             });
@@ -256,7 +298,7 @@ public class GameController {
                 public void run() {
                     Timeline tl = new Timeline(new KeyFrame(Duration.millis(250), new KeyValue(p2Special, 0)));
                     tl.getKeyFrames().add(new KeyFrame(Duration.millis(250),
-                            e -> gameView.getP2Super().setStyle("-fx-accent: red;")));
+                            e -> gameView.getP2Super().setStyle("-fx-accent: blue;")));
                     tl.play();
                 }
             });
@@ -280,14 +322,14 @@ public class GameController {
     public static void doSpecialAnimation(Character c) {
         gameView.getDrawingLoop().setTimeScale(0.25);
         gameView.getGameLoop().setTimeScale(0.25);
-        goalable = false;
+        goalable.set(false);
         c.setDoingSpecial(true);
     }
 
     public static void finishSpecial(Character c) {
         gameView.getDrawingLoop().setTimeScale(1);
         gameView.getGameLoop().setTimeScale(1);
-        goalable = true;
+        goalable.set(true);
         Launcher.getSceneController().getKeys().clear();
         c.setIsMoving(false);
         c.setDoingSpecial(false);

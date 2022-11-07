@@ -2,6 +2,7 @@ package se233.project2.view;
 
 import java.util.ArrayList;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -30,6 +31,8 @@ public class GameView extends BorderPane {
     private ArrayList<GoalRegion> goalRegions = new ArrayList<>();
     private Ball ball;
     private ImageView foreground;
+    private boolean paused = false;
+    private Splash menuSplash;
 
     public GameView() {
         this.getStyleClass().add("game-view");
@@ -59,12 +62,41 @@ public class GameView extends BorderPane {
         p1Hp = new ProgressBar();
         p1Hp.getStyleClass().add("health-bar");
         p1Hp.progressProperty().bind(getCharacters().get(0).getHp().divide(100));
+        getCharacters().get(0).getHp().addListener((obs, oldVal, newVal) -> {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    if (newVal.doubleValue() <= 25) {
+                        p1Hp.setStyle("-fx-accent: red");
+                    } else if (newVal.doubleValue() <= 50) {
+                        p1Hp.setStyle("-fx-accent: gold");
+                    } else {
+                        p1Hp.setStyle("-fx-accent: green");
+                    }
+                }
+            });
+        });
         p1Hp.setPrefWidth(320);
         p2Hp = new ProgressBar();
         p2Hp.getStyleClass().add("health-bar");
         p2Hp.setPrefWidth(320);
         p2Hp.setScaleX(-1);
         p2Hp.progressProperty().bind(getCharacters().get(1).getHp().divide(100));
+        getCharacters().get(1).getHp().addListener((obs, oldVal, newVal) -> {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    if (newVal.doubleValue() <= 25) {
+                        p2Hp.setStyle("-fx-accent: red");
+                    } else if (newVal.doubleValue() <= 50) {
+                        p2Hp.setStyle("-fx-accent: gold");
+                    } else {
+                        p2Hp.setStyle("-fx-accent: green");
+                    }
+                }
+            });
+        });
+
         BorderPane p1Lower = new BorderPane();
         p1Lower.setLeft(p1Hp);
         p1Lower.setRight(p1ScoreLabel);
@@ -73,7 +105,8 @@ public class GameView extends BorderPane {
         p2Lower.setLeft(p2ScoreLabel);
         VBox p1Box = new VBox(8, p1Super, p1Lower);
         p1Box.setAlignment(Pos.CENTER_RIGHT);
-        VBox p2Box = new VBox(8, p2Super, p2Lower);
+        VBox p2Box = new VBox(8, p2Super,
+                p2Lower);
         p2Box.setAlignment(Pos.CENTER_LEFT);
         containerBox.setAlignment(Pos.CENTER);
         containerBox.getChildren().addAll(p1Box, timerLabel, p2Box);
@@ -135,5 +168,21 @@ public class GameView extends BorderPane {
 
     public ProgressBar getP2Super() {
         return p2Super;
+    }
+
+    public Splash getMenuSplash() {
+        return menuSplash;
+    }
+
+    public void setMenuSplash(Splash menuSplash) {
+        this.menuSplash = menuSplash;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    public boolean isPaused() {
+        return paused;
     }
 }

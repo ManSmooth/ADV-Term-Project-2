@@ -131,9 +131,9 @@ public class Character extends StackPane {
             if (kicking && c.isKicking())
                 return;
             else if (c.isKicking())
-                hp.set(c.getHp().get() - Math.pow(2, impulse * 1.75 / 7.5));
+                hp.set(hp.get() - Math.pow(2, impulse * 1.75 / 10));
             else if (isKicking())
-                c.getHp().set(c.getHp().get() - Math.pow(2, impulse * 1.75 / 7.5));
+                c.getHp().set(c.getHp().get() - Math.pow(2, impulse * 1.75 / 10));
 
         }
     }

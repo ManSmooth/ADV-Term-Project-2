@@ -11,9 +11,9 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
-.vscode/
 # Eclipse m2e generated files
 # Eclipse Core
+.vscode
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath

@@ -38,7 +38,7 @@ public class GameTest {
 
     @BeforeEach
     public void setup() {
-        JFXPanel jfxPanel = new JFXPanel();
+        new JFXPanel();
         GameLoader.load();
         MediaController.getSfxVolume().set(0);
         floatingCharacter = new Character(100d, 50d, KeyCode.A, KeyCode.D,

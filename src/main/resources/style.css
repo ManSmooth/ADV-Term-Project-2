@@ -156,7 +156,7 @@
 }
 
 .progress-bar {
-    -fx-accent: red;
+    -fx-accent: blue;
 }
 
 .progress-bar .track {

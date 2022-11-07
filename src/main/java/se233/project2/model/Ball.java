@@ -86,9 +86,12 @@ public class Ball extends StackPane {
         if (intersects_character(c)) {
             if (c.isSpecialQueued()) {
                 y = c.getBoundsInParent().getCenterY();
+                x = c.getDirectionR() ? c.getBoundsInParent().getMaxX()
+                        : c.getBoundsInParent().getMinX();
                 GameController.doSpecialAnimation(c);
                 vel = new PolarVector().fromPolar(75, c.getDirectionR() ? 0 : Math.PI);
                 c.exhaustSpecial();
+                c.kick();
                 return;
             }
             PolarVector normal = vel.add(c.getVel().negate());

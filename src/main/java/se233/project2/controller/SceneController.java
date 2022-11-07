@@ -7,7 +7,9 @@ import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+import se233.project2.controller.game.GameController;
 import se233.project2.model.Keys;
 import se233.project2.view.*;
 
@@ -25,7 +27,12 @@ public class SceneController {
         this.addScene("Menu", new MenuView());
         this.addScene("Game", new GameView());
         this.addScene("CharaSelect", new CharaSelectView());
-        this.main.setOnKeyPressed(e -> this.getKeys().add(e.getCode()));
+        this.main.setOnKeyPressed(e -> {
+            this.getKeys().add(e.getCode());
+            if (this.active.equals("Game") && e.getCode().equals(KeyCode.ESCAPE)) {
+                GameController.callPause();
+            }
+        });
         this.main.setOnKeyReleased(e -> this.getKeys().remove(e.getCode()));
     }
 
